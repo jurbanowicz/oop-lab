@@ -6,7 +6,7 @@ import static agh.ics.oop.Direction.PossibleDirections;
 
 
 public class World {
-    public static void GetDirection(PossibleDirections direction){
+    public static void GetDirection(PossibleDirections direction){ // prints out a message about the current direction
         String message = switch (direction) {
             case FORWARD -> "Zwierzak idzie do przodu";
             case BACKWARD -> "Zwierzak idzie do tyłu";
@@ -16,6 +16,7 @@ public class World {
         out.println(message);
     }
 
+    // changes the array of strings into array of directions
     public static PossibleDirections[] ChangeToDirection(String[] directions) {
 
         PossibleDirections[] Moves = new PossibleDirections[directions.length];
