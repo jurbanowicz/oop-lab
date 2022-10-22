@@ -23,6 +23,7 @@ public class AnimalTest {
     }
 
     @Test
+    // check if the animal stays within lower left boundries
     public void Test_2() {
         Animal animal = new Animal();
 
@@ -50,6 +51,7 @@ public class AnimalTest {
         assertEquals("(1, 2)Południe", animal.toString());
     }
     @Test
+    // check position and direction
     public void Test_4() {
         Animal animal = new Animal();
 
