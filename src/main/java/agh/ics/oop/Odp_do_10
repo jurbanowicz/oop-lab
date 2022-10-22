@@ -1,0 +1,5 @@
+Aby zapobiec pojawieniu się 2 zweirzaków w tym samym miejscu, możemy skorzystać z metody
+isAt() np. animal_1.isAt(animal_2.currPosition), zapamiętać początkową pozycje animal_1
+i sprawdzić czy ewentualne wykonanie ruchu nie spowodowałoby wejścia na pole już zajęte.
+Jeśli tak to cofamy zwierzaka do początkowej pozycji,
+jeśli nie to znaczy,że ruch można było wykonać i zwierzak pozostaje na nowej puzycji
