@@ -2,15 +2,31 @@ package agh.ics.oop;
 
 public class Animal {
     private MapDirection currDirection = MapDirection.NORTH;
-    private Vector2d currPosition = new Vector2d(2, 2);
+    private Vector2d currPosition;
+
+    public Animal() {
+        currPosition = new Vector2d(2, 2);
+    }
+    public Animal(IWorldMap map) {
+        currPosition = new Vector2d(2, 2);
+    }
+
+    public Animal(IWorldMap map, Vector2d initialPosition) {
+        currPosition = initialPosition;
+    }
 
     public String toString() {
-        return currPosition.toString() + currDirection.toString();
+        return switch (currDirection) {
+            case SOUTH -> "S";
+            case NORTH -> "N";
+            case EAST -> "E";
+            case WEST -> "W";
+        };
     }
     boolean isAt(Vector2d position) {
         return currPosition.equals(position);
     }
-    void move(MoveDirection direction) {
+    void move(MoveDirection direction, IWorldMap map) {
         Vector2d newPosition = currPosition;
         switch (direction) {
             case LEFT -> currDirection = currDirection.previous();
@@ -18,11 +34,13 @@ public class Animal {
             case FORWARD -> newPosition = currPosition.add(currDirection.toUnitVector());
             case BACKWARD -> newPosition = currPosition.subtract(currDirection.toUnitVector());
         }
-        if (newPosition.precedes(new Vector2d(4, 4))) {
-            if (newPosition.follows(new Vector2d(0, 0))) {
-                currPosition = newPosition;
-            }
+        if (map.canMoveTo(newPosition)) {
+            currPosition = newPosition;
         }
+    }
+
+    Vector2d getPosition() {
+        return this.currPosition;
     }
 
 

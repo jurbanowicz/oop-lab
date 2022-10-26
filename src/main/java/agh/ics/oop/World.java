@@ -45,17 +45,17 @@ public class World {
 
 //        run(Moves);
 
-        Animal animal = new Animal();
-
-        out.println(animal);
-
-        MoveDirection[] animalDirections = OptionsParser.parse(args);
-
-        for(MoveDirection direction: animalDirections) {
-            animal.move(direction);
-        }
-
-        out.println(animal);
+//        Animal animal = new Animal();
+//
+//        out.println(animal);
+//
+//        MoveDirection[] animalDirections = OptionsParser.parse(args);
+//
+//        for(MoveDirection direction: animalDirections) {
+//            animal.move(direction);
+//        }
+//
+//        out.println(animal);
 
 
 
