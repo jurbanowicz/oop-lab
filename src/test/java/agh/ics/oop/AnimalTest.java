@@ -14,7 +14,7 @@ public class AnimalTest {
 
         String[] input = new String[]{"f", "f", "f", "f"};
 
-        MoveDirection[] animalDirections = OptionsParser.parse(input);
+        MoveDirection[] animalDirections = new OptionsParser().parse(input);
 
         for(MoveDirection direction: animalDirections) {
             animal.move(direction);
@@ -29,7 +29,7 @@ public class AnimalTest {
 
         String[] input = new String[]{"l", "f", "f", "f", "f", "l", "f", "f", "f", "f"};
 
-        MoveDirection[] animalDirections = OptionsParser.parse(input);
+        MoveDirection[] animalDirections = new OptionsParser().parse(input);
 
         for(MoveDirection direction: animalDirections) {
             animal.move(direction);
@@ -43,7 +43,7 @@ public class AnimalTest {
 
         String[] input = new String[]{"x", "l", "x", "f", "x", "l"};
 
-        MoveDirection[] animalDirections = OptionsParser.parse(input);
+        MoveDirection[] animalDirections = new OptionsParser().parse(input);
 
         for(MoveDirection direction: animalDirections) {
             animal.move(direction);
@@ -57,7 +57,7 @@ public class AnimalTest {
 
         String[] input = new String[]{"r", "f", "l", "f", "r", "f", "l", "f"};
 
-        MoveDirection[] animalDirections = OptionsParser.parse(input);
+        MoveDirection[] animalDirections = new OptionsParser().parse(input);
 
         for(MoveDirection direction: animalDirections) {
             animal.move(direction);

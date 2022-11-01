@@ -4,44 +4,47 @@ public class RectangularMap implements IWorldMap {
     private final int width;
     private final int height;
 
-    private boolean[][] map;
+    private Object[][] map;
 
-    public RectangularMap(int width,int height) {
+    public RectangularMap(int width, int height) {
         this.width = width;
         this.height = height;
-        map = new boolean[height][width];
+        map = new Object[height][width];
     }
-
 
     @Override
     public String toString() {
-        return "";
+        MapVisualizer mapVisualization = new MapVisualizer(this);
+        return mapVisualization.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (isOccupied(position)) {
-            return false;
-        }
-        if (position.precedes(new Vector2d(width, height)) && position.follows(new Vector2d(0, 0))) {
-            return true;
+        if (position.precedes(new Vector2d(width - 1, height - 1)) && position.follows(new Vector2d(0, 0))) {
+            return !(isOccupied(position));
         }
         return false;
     }
 
     @Override
     public boolean place(Animal animal) {
-        if (map[animal.getPosition().y][animal.getPosition().x]) {
+        if (isOccupied(animal.getPosition())) {
             return false;
         }
-        map[animal.getPosition().y][animal.getPosition().x] = true;
+        map[animal.getPosition().y][animal.getPosition().x] = animal;
         return true;
     }
     @Override
     public boolean isOccupied(Vector2d position) {
-        return map[position.y][position.x];
+        return map[position.y][position.x] != null;
     }
     @Override
     public Object objectAt(Vector2d position) {
-        return map[position.x][position.y];
+        return map[position.y][position.x];
+    }
+
+    @Override
+    public void moveFromTo(Vector2d start, Vector2d end, Animal animal) {
+        map[start.y][start.x] = null;
+        map[end.y][end.x] = animal;
     }
 }

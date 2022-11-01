@@ -42,23 +42,28 @@ public class World {
 
 
 //        PossibleDirections[] Moves = ChangeToDirection(args);
-
-//        run(Moves);
-
-//        Animal animal = new Animal();
 //
-//        out.println(animal);
+////        run(Moves);
 //
-//        MoveDirection[] animalDirections = OptionsParser.parse(args);
-//
-//        for(MoveDirection direction: animalDirections) {
-//            animal.move(direction);
-//        }
-//
-//        out.println(animal);
+////        Animal animal = new Animal();
+////
+////        out.println(animal);
+////
+////        MoveDirection[] animalDirections = OptionsParser.parse(args);
+////
+////        for(MoveDirection direction: animalDirections) {
+////            animal.move(direction);
+////        }
+////
+////        out.println(animal);
 
-
-
+        args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        out.println(map);
         out.println("System zakończył działanie");
     }
 

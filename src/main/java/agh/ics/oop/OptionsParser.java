@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class OptionsParser {
-    static MoveDirection[] parse(String[] directions) {
+    public MoveDirection[] parse(String[] directions) {
         int errors = 0;
         Set<String> possibleDirections = new HashSet<String>(Arrays.asList(
                 "f", "forward", "b", "backward", "r", "right", "l", "left"));
