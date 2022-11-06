@@ -45,13 +45,5 @@ public interface IWorldMap {
      * @return Object or null if the position is not occupied.
      */
     Object objectAt(Vector2d position);
-
-    /**
-     * Move animal from start position to end position
-     * Set start position to null and end position to animal
-     * @param start animal starting position
-     * @param end   animal ending position
-     * @param animal animal to be moved
-     */
     void moveFromTo(Vector2d start, Vector2d end, Animal animal);
 }

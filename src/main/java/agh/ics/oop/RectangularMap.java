@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public class RectangularMap implements IWorldMap {
+public class RectangularMap extends AbstractWorldMap {
     private final int width;
     private final int height;
 
@@ -13,9 +13,12 @@ public class RectangularMap implements IWorldMap {
     }
 
     @Override
-    public String toString() {
-        MapVisualizer mapVisualization = new MapVisualizer(this);
-        return mapVisualization.draw(new Vector2d(0, 0), new Vector2d(width - 1, height - 1));
+    public Vector2d findLowLeft() {
+        return new Vector2d(0, 0);
+    }
+    @Override
+    public Vector2d findUpperRight() {
+        return new Vector2d(width - 1, height - 1);
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -42,7 +45,6 @@ public class RectangularMap implements IWorldMap {
         return map[position.y][position.x];
     }
 
-    @Override
     public void moveFromTo(Vector2d start, Vector2d end, Animal animal) {
         map[start.y][start.x] = null;
         map[end.y][end.x] = animal;

@@ -1,0 +1,7 @@
+10. Dodanie interfejsu IMapElement mogło by skrócić znacząco implementację FrassField.
+W każdym miejscu gdzie w GrassField pojawiają się 2 pętle przeszukujące liste animals
+oraz listę grassList, możliwe byłoby by zastąpienie ich pojedyńczą pętlą poprzez umieszczenie
+zarówno obiektów Animal jak i Grass w jednej liście typu IMapElement.
+
+11. W przypadku zaimplementowania klasy AbstractWorldMapElement jedyne co klasy Animal i grass mogły by
+odziedziczyć to metodę getPosition więc stworzenie dodatkowej klasy nie uprości w znaczący sposób kodu.
