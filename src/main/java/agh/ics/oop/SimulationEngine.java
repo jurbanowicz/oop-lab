@@ -30,7 +30,7 @@ public class SimulationEngine implements IEngine{
             animals.get(i).move(currMove);
             // System.out.println("Animal " + i + " is moving " + currMove + " Curr animal position is: " +
             //        animals.get(i).getPosition());
-            // System.out.println(map);
+//             System.out.println(map);
             i = (i + 1) % animals.size();
         }
 

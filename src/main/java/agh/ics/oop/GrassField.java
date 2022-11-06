@@ -9,10 +9,12 @@ public class GrassField extends AbstractWorldMap {
 
     private ArrayList<Animal> animals;
     private ArrayList<Grass> grassList;
+    private int grassAmount;
 
     public GrassField(int grassAmount) {
         animals = new ArrayList<>();
         grassList = new ArrayList<>();
+        this.grassAmount = grassAmount;
         int i = 0;
         while (i < grassAmount) {
             int x = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
@@ -25,12 +27,35 @@ public class GrassField extends AbstractWorldMap {
         }
     }
 
+    /** place new grass on a random position and remove the old one where the animal has moved
+     * @param grass old grass to be removed
+     */
+    public void placeNewGrass(Grass grass) {
+        grassList.remove(grass);
+        boolean flag = true;
+        while (flag) {
+            int x = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
+            int y = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
+            Vector2d pos = new Vector2d(x, y);
+            if (!(isOccupied(pos))) {
+                grassList.add(new Grass(pos));
+                flag = false;
+            }
+        }
+    }
+
     @Override
     public boolean canMoveTo(Vector2d position) {
         for (Animal animal: animals)
             if (animal.getPosition().equals(position)) {
                 return false;
             }
+        for (Grass grass: grassList) {
+            if (grass.getPosition().equals(position)) {
+                placeNewGrass(grass);
+                return true;
+            }
+        }
         return true;
     }
 
