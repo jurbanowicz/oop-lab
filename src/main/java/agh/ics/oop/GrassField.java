@@ -1,19 +1,21 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static java.lang.Math.sqrt;
 
 public class GrassField extends AbstractWorldMap {
 
-    private ArrayList<Animal> animals;
-    private ArrayList<Grass> grassList;
+    private Map<Vector2d, Animal> animals;
+    private Map<Vector2d, Grass> grassList;
     private int grassAmount;
 
     public GrassField(int grassAmount) {
-        animals = new ArrayList<>();
-        grassList = new ArrayList<>();
+        animals = new HashMap<>();
+        grassList = new HashMap<>();
         this.grassAmount = grassAmount;
         int i = 0;
         while (i < grassAmount) {
@@ -21,7 +23,7 @@ public class GrassField extends AbstractWorldMap {
             int y = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
             Vector2d pos = new Vector2d(x, y);
             if (!(isOccupied(pos))) {
-                grassList.add(new Grass(pos));
+                grassList.put(pos, new Grass(pos));
                 i++;
             }
         }
@@ -31,14 +33,14 @@ public class GrassField extends AbstractWorldMap {
      * @param grass old grass to be removed
      */
     public void placeNewGrass(Grass grass) {
-        grassList.remove(grass);
+        grassList.remove(grass.getPosition());
         boolean flag = true;
         while (flag) {
             int x = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
             int y = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
             Vector2d pos = new Vector2d(x, y);
             if (!(isOccupied(pos))) {
-                grassList.add(new Grass(pos));
+                grassList.put(pos, new Grass(pos));
                 flag = false;
             }
         }
@@ -46,23 +48,20 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        for (Animal animal: animals)
-            if (animal.getPosition().equals(position)) {
+        if (animals.containsKey(position)) {
                 return false;
             }
-        for (Grass grass: grassList) {
-            if (grass.getPosition().equals(position)) {
-                placeNewGrass(grass);
-                return true;
+        if (grassList.containsKey(position)) {
+            placeNewGrass(grassList.get(position));
+            return true;
             }
-        }
         return true;
     }
 
     @Override
     public boolean place(Animal animal) {
         if (canMoveTo(animal.getPosition())) {
-            animals.add(animal);
+            animals.put(animal.getPosition(), animal);
             return true;
         }
         return false;
@@ -70,29 +69,22 @@ public class GrassField extends AbstractWorldMap {
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animals)
-            if (animal.getPosition().equals(position)) {
-                return true;
+        if (animals.containsKey(position)) {
+            return true;
         }
-        for (Grass grass: grassList) {
-            if (grass.getPosition().equals(position)) {
-                return true;
-            }
+        if (grassList.containsKey(position)) {
+            return true;
         }
         return false;
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.getPosition().equals(position)) {
-                return animal;
-            }
+        if (animals.containsKey(position)) {
+            return animals.get(position);
         }
-        for (Grass grass: grassList) {
-            if (grass.getPosition().equals(position)) {
-                return grass;
-            }
+        if (grassList.containsKey(position)) {
+            return grassList.get(position);
         }
         return null;
     }
@@ -103,22 +95,28 @@ public class GrassField extends AbstractWorldMap {
      */
     @Override
     public Vector2d findLowLeft() {
-        int bestX = animals.get(0).getPosition().x;
-        int bestY = animals.get(0).getPosition().y;
-        for (Animal animal : animals) {
-            if (animal.getPosition().x < bestX) {
-                bestX = animal.getPosition().x;
+        int bestX = 0;
+        int bestY = 0;
+        boolean flag = true;
+        for (Vector2d position : animals.keySet()) {
+            if (flag) {
+               bestX = position.x;
+               bestY = position.y;
+               flag = false;
             }
-            if (animal.getPosition().y < bestY) {
-                bestY = animal.getPosition().y;
+            if (position.x < bestX) {
+                bestX = position.x;
+            }
+            if (position.y < bestY) {
+                bestY = position.y;
             }
         }
-        for (Grass grass : grassList) {
-            if (grass.getPosition().x < bestX) {
-                bestX = grass.getPosition().x;
+        for (Vector2d position : grassList.keySet()) {
+            if (position.x < bestX) {
+                bestX = position.x;
             }
-            if (grass.getPosition().y < bestY) {
-                bestY = grass.getPosition().y;
+            if (position.y < bestY) {
+                bestY = position.y;
             }
         }
         return new Vector2d(bestX, bestY);
@@ -129,27 +127,37 @@ public class GrassField extends AbstractWorldMap {
     */
     @Override
     public Vector2d findUpperRight() {
-        int bestX = animals.get(0).getPosition().x;
-        int bestY = animals.get(0).getPosition().y;
-        for (Animal animal : animals) {
-            if (animal.getPosition().x > bestX) {
-                bestX = animal.getPosition().x;
+        int bestX = 0;
+        int bestY = 0;
+        boolean flag = true;
+        for (Vector2d position : animals.keySet()) {
+            if (flag) {
+                bestX = position.x;
+                bestY = position.y;
+                flag = false;
             }
-            if (animal.getPosition().y > bestY) {
-                bestY = animal.getPosition().y;
+            if (position.x > bestX) {
+                bestX = position.x;
+            }
+            if (position.y > bestY) {
+                bestY = position.y;
             }
         }
-        for (Grass grass : grassList) {
-            if (grass.getPosition().x > bestX) {
-                bestX = grass.getPosition().x;
+        for (Vector2d position : grassList.keySet()) {
+            if (position.x > bestX) {
+                bestX = position.x;
             }
-            if (grass.getPosition().y > bestY) {
-                bestY = grass.getPosition().y;
+            if (position.y > bestY) {
+                bestY = position.y;
             }
         }
         return new Vector2d(bestX, bestY);
     }
 
     @Override
-    public void moveFromTo(Vector2d start, Vector2d end, Animal animal){}
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal animal = animals.get(oldPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition, animal);
+    }
 }

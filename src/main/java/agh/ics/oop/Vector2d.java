@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import java.util.Objects;
+
 class Vector2d {
     public final int x;
     public final int y;
@@ -11,6 +13,10 @@ class Vector2d {
 
     public String toString() {
         return String.format("(%d, %d)", this.x, this.y);
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.x, this.y);
     }
 
     boolean precedes(Vector2d other) {

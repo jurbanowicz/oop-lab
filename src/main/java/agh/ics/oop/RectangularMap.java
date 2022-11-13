@@ -40,6 +40,14 @@ public class RectangularMap extends AbstractWorldMap {
     public boolean isOccupied(Vector2d position) {
         return map[position.y][position.x] != null;
     }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal animal = (Animal) objectAt(oldPosition);
+        map[oldPosition.y][oldPosition.x] = null;
+        map[newPosition.y][newPosition.x] = animal;
+    }
+
     @Override
     public Object objectAt(Vector2d position) {
         return map[position.y][position.x];

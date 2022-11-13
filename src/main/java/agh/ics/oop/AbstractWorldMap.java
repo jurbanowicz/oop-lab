@@ -1,6 +1,6 @@
 package agh.ics.oop;
 
-public abstract class AbstractWorldMap implements IWorldMap {
+public abstract class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
    /*
    Ze względu na znacząco inny sposób implementacji rectangular map oraz grass field, w tych klasach nie pojawia się kod wspólny i
    nie byłem w stanie prenieść implemetnacji metod z interfejsu do bieżącej klasy.
@@ -19,4 +19,7 @@ public abstract class AbstractWorldMap implements IWorldMap {
 
     public abstract boolean isOccupied(Vector2d position);
 
+    public abstract void positionChanged(Vector2d oldPosition, Vector2d newPosition);
 }
+
+
