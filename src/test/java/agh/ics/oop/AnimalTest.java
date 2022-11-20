@@ -8,60 +8,54 @@ import static org.junit.jupiter.api.Assertions.*;
 public class AnimalTest {
 
     @Test
-    // check if the animal stays within upper right boundries
-    public void Test_1() {
-        Animal animal = new Animal();
-
-        String[] input = new String[]{"f", "f", "f", "f"};
-
-        MoveDirection[] animalDirections = new OptionsParser().parse(input);
-
-        for(MoveDirection direction: animalDirections) {
-            animal.move(direction);
+    public void OptionsParserTest_1() {
+        boolean flag = false;
+        try {
+            String[] args = new String[]{"f", "f", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+            MoveDirection[] directions = new OptionsParser().parse(args);
+            IWorldMap map = new GrassField(10);
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
+            IEngine engine = new SimulationEngine(directions, map, positions);
+            engine.run();
+        }catch (IllegalArgumentException e) {
+            flag = true;
         }
-        assertEquals("(2, 4)Północ", animal.toString());
+        assertFalse(flag);
+
     }
 
     @Test
-    // check if the animal stays within lower left boundries
-    public void Test_2() {
-        Animal animal = new Animal();
-
-        String[] input = new String[]{"l", "f", "f", "f", "f", "l", "f", "f", "f", "f"};
-
-        MoveDirection[] animalDirections = new OptionsParser().parse(input);
-
-        for(MoveDirection direction: animalDirections) {
-            animal.move(direction);
+    // check if parser throws exception with incorrect input
+    public void OptionParserTest_2() {
+        boolean flag = false;
+        try {
+            String[] args = new String[]{"f", "x", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+            MoveDirection[] directions = new OptionsParser().parse(args);
+            IWorldMap map = new GrassField(10);
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
+            IEngine engine = new SimulationEngine(directions, map, positions);
+            engine.run();
+        }catch (IllegalArgumentException e) {
+            flag = true;
+            System.out.println(e);
         }
-        assertEquals("(0, 0)Południe", animal.toString());
+        assertTrue(flag);
     }
+    // chceck if place throws exception if given incorrect inputs
     @Test
-    // check if given some incorrect inputs
     public void Test_3() {
-        Animal animal = new Animal();
-
-        String[] input = new String[]{"x", "l", "x", "f", "x", "l"};
-
-        MoveDirection[] animalDirections = new OptionsParser().parse(input);
-
-        for(MoveDirection direction: animalDirections) {
-            animal.move(direction);
+        boolean flag = false;
+        try {
+            String[] args = new String[]{"f", "f", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+            MoveDirection[] directions = new OptionsParser().parse(args);
+            IWorldMap map = new GrassField(10);
+            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(2, 2)};
+            IEngine engine = new SimulationEngine(directions, map, positions);
+            engine.run();
+        }catch (IllegalArgumentException e) {
+            flag = true;
+            System.out.println(e);
         }
-        assertEquals("(1, 2)Południe", animal.toString());
-    }
-    @Test
-    // check position and direction
-    public void Test_4() {
-        Animal animal = new Animal();
-
-        String[] input = new String[]{"r", "f", "l", "f", "r", "f", "l", "f"};
-
-        MoveDirection[] animalDirections = new OptionsParser().parse(input);
-
-        for(MoveDirection direction: animalDirections) {
-            animal.move(direction);
-        }
-        assertEquals("(4, 4)Północ", animal.toString());
+        assertTrue(flag);
     }
 }

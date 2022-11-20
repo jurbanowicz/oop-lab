@@ -1,0 +1,2 @@
+Ljava.lang.IllegalArgumentException: Not possible to place object at: (2, 2)
+;java.lang.IllegalArgumentException: x is invalid direction

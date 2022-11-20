@@ -1,6 +1,7 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.Vector;
 
 public class Animal {
     private MapDirection currDirection = MapDirection.NORTH;
@@ -24,6 +25,8 @@ public class Animal {
         observerList = new ArrayList<>();
         IPositionChangeObserver observer = (IPositionChangeObserver) map;
         addObserver(observer);
+        IPositionChangeObserver observer1 = new MapBoundary(map);
+        addObserver(observer1);
     }
 
     public String toString() {
@@ -46,8 +49,10 @@ public class Animal {
             case BACKWARD -> newPosition = currPosition.subtract(currDirection.toUnitVector());
         }
         if (this.map.canMoveTo(newPosition)) {
-            positionChanged(currPosition, newPosition);
+            // positionChanged(currPosition, newPosition);
+            Vector2d oldPosition = currPosition;
             this.currPosition = newPosition;
+            positionChanged(oldPosition, newPosition);
         }
     }
     public Vector2d getPosition() {

@@ -1,5 +1,8 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
+import javafx.application.Application;
+
 import static java.lang.System.out;
 
 import static agh.ics.oop.Direction.PossibleDirections;
@@ -40,30 +43,19 @@ public class World {
     public static void main(String[] args) {
         out.println("System wystartował");
 
+        try {
+            //args = new String[]{"f", "f", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
+            Application.launch(App.class, args);
+//            MoveDirection[] directions = new OptionsParser().parse(args);
+//            IWorldMap map = new GrassField(10);
+//            Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
+//            IEngine engine = new SimulationEngine(directions, map, positions);
+//            engine.run();
+//            out.println(map);
+        } catch (IllegalArgumentException e) {
+            out.println(e);
+        }
 
-//        PossibleDirections[] Moves = ChangeToDirection(args);
-//
-////        run(Moves);
-//
-////        Animal animal = new Animal();
-////
-////        out.println(animal);
-////
-////        MoveDirection[] animalDirections = OptionsParser.parse(args);
-////
-////        for(MoveDirection direction: animalDirections) {
-////            animal.move(direction);
-////        }
-////
-////        out.println(animal);
-
-//        args = new String[]{"f", "b", "r", "l", "f", "f", "r", "r", "f", "f", "f", "f", "f", "f", "f", "f"};
-        MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new GrassField(10);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-        out.println(map);
         out.println("System zakończył działanie");
     }
 

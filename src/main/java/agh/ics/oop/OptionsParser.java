@@ -1,39 +1,24 @@
 package agh.ics.oop;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.util.ArrayList;
 
 public class OptionsParser {
     public MoveDirection[] parse(String[] directions) {
-//        if (directions.length == 0) {
-//            return new MoveDirection[]{};
-//        }
-        int errors = 0;
-        Set<String> possibleDirections = new HashSet<String>(Arrays.asList(
-                "f", "forward", "b", "backward", "r", "right", "l", "left"));
+        ArrayList<MoveDirection> moveDirections = new ArrayList<>();
 
-        // count the number of incorrect inputs
-        for (String direction: directions) {
-            if (!(possibleDirections.contains(direction))) {
-                errors++;
-            }
-        }
-        // create an array with the correct number of inputs
-        MoveDirection[] moveDirections = new MoveDirection[directions.length - errors];
-
-        int curr_i = 0;
-        for(int i = 0; i < directions.length; i++) {
-            String direction = directions[i];
+//        int curr_i = 0;
+        for (String direction : directions) {
             switch (direction) {
-                case "f", "forward" -> moveDirections[curr_i] = MoveDirection.FORWARD;
-                case "b", "backward" -> moveDirections[curr_i] = MoveDirection.BACKWARD;
-                case "r", "right" -> moveDirections[curr_i] = MoveDirection.RIGHT;
-                case "l", "left" -> moveDirections[curr_i] = MoveDirection.LEFT;
-                default -> curr_i--;
+                case "f", "forward" -> moveDirections.add(MoveDirection.FORWARD);
+                case "b", "backward" -> moveDirections.add(MoveDirection.BACKWARD);
+                case "r", "right" -> moveDirections.add(MoveDirection.RIGHT);
+                case "l", "left" -> moveDirections.add(MoveDirection.LEFT);
+                default -> throw new IllegalArgumentException(direction + " is invalid direction");
             }
-            curr_i++;
+//            curr_i++;
         }
-        return moveDirections;
+        MoveDirection[] result = new MoveDirection[moveDirections.size()];
+        return moveDirections.toArray(result);
     }
 }

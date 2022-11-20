@@ -64,7 +64,7 @@ public class GrassField extends AbstractWorldMap {
             animals.put(animal.getPosition(), animal);
             return true;
         }
-        return false;
+        throw new IllegalArgumentException("Not possible to place object at: " + animal.getPosition());
     }
 
     @Override
