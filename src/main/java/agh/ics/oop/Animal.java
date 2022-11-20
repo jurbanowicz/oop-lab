@@ -25,8 +25,6 @@ public class Animal {
         observerList = new ArrayList<>();
         IPositionChangeObserver observer = (IPositionChangeObserver) map;
         addObserver(observer);
-        IPositionChangeObserver observer1 = new MapBoundary(map);
-        addObserver(observer1);
     }
 
     public String toString() {

@@ -13,9 +13,12 @@ public class GrassField extends AbstractWorldMap {
     private Map<Vector2d, Grass> grassList;
     private int grassAmount;
 
+    private MapBoundary borders;
+
     public GrassField(int grassAmount) {
         animals = new HashMap<>();
         grassList = new HashMap<>();
+        borders = new MapBoundary();
         this.grassAmount = grassAmount;
         int i = 0;
         while (i < grassAmount) {
@@ -24,6 +27,7 @@ public class GrassField extends AbstractWorldMap {
             Vector2d pos = new Vector2d(x, y);
             if (!(isOccupied(pos))) {
                 grassList.put(pos, new Grass(pos));
+                borders.addElement(pos);
                 i++;
             }
         }
@@ -34,6 +38,7 @@ public class GrassField extends AbstractWorldMap {
      */
     public void placeNewGrass(Grass grass) {
         grassList.remove(grass.getPosition());
+        borders.removeElement(grass.getPosition());
         boolean flag = true;
         while (flag) {
             int x = ThreadLocalRandom.current().nextInt(0, (int) sqrt(grassAmount*10));
@@ -41,6 +46,7 @@ public class GrassField extends AbstractWorldMap {
             Vector2d pos = new Vector2d(x, y);
             if (!(isOccupied(pos))) {
                 grassList.put(pos, new Grass(pos));
+                borders.addElement(pos);
                 flag = false;
             }
         }
@@ -62,6 +68,8 @@ public class GrassField extends AbstractWorldMap {
     public boolean place(Animal animal) {
         if (canMoveTo(animal.getPosition())) {
             animals.put(animal.getPosition(), animal);
+            borders.addElement(animal.getPosition());
+            animal.addObserver(borders);
             return true;
         }
         throw new IllegalArgumentException("Not possible to place object at: " + animal.getPosition());
@@ -94,64 +102,70 @@ public class GrassField extends AbstractWorldMap {
      * @return Vector2d of the position of such item
      */
     @Override
+//    public Vector2d findLowLeft() {
+//        int bestX = 0;
+//        int bestY = 0;
+//        boolean flag = true;
+//        for (Vector2d position : animals.keySet()) {
+//            if (flag) {
+//               bestX = position.x;
+//               bestY = position.y;
+//               flag = false;
+//            }
+//            if (position.x < bestX) {
+//                bestX = position.x;
+//            }
+//            if (position.y < bestY) {
+//                bestY = position.y;
+//            }
+//        }
+//        for (Vector2d position : grassList.keySet()) {
+//            if (position.x < bestX) {
+//                bestX = position.x;
+//            }
+//            if (position.y < bestY) {
+//                bestY = position.y;
+//            }
+//        }
+//        return new Vector2d(bestX, bestY);
+//    }
     public Vector2d findLowLeft() {
-        int bestX = 0;
-        int bestY = 0;
-        boolean flag = true;
-        for (Vector2d position : animals.keySet()) {
-            if (flag) {
-               bestX = position.x;
-               bestY = position.y;
-               flag = false;
-            }
-            if (position.x < bestX) {
-                bestX = position.x;
-            }
-            if (position.y < bestY) {
-                bestY = position.y;
-            }
-        }
-        for (Vector2d position : grassList.keySet()) {
-            if (position.x < bestX) {
-                bestX = position.x;
-            }
-            if (position.y < bestY) {
-                bestY = position.y;
-            }
-        }
-        return new Vector2d(bestX, bestY);
+        return borders.lowerLeft();
     }
 
     /** Finds the most upper right item on the map
      * @return Vector2d of the most upper right item
     */
     @Override
+//    public Vector2d findUpperRight() {
+//        int bestX = 0;
+//        int bestY = 0;
+//        boolean flag = true;
+//        for (Vector2d position : animals.keySet()) {
+//            if (flag) {
+//                bestX = position.x;
+//                bestY = position.y;
+//                flag = false;
+//            }
+//            if (position.x > bestX) {
+//                bestX = position.x;
+//            }
+//            if (position.y > bestY) {
+//                bestY = position.y;
+//            }
+//        }
+//        for (Vector2d position : grassList.keySet()) {
+//            if (position.x > bestX) {
+//                bestX = position.x;
+//            }
+//            if (position.y > bestY) {
+//                bestY = position.y;
+//            }
+//        }
+//        return new Vector2d(bestX, bestY);
+//    }
     public Vector2d findUpperRight() {
-        int bestX = 0;
-        int bestY = 0;
-        boolean flag = true;
-        for (Vector2d position : animals.keySet()) {
-            if (flag) {
-                bestX = position.x;
-                bestY = position.y;
-                flag = false;
-            }
-            if (position.x > bestX) {
-                bestX = position.x;
-            }
-            if (position.y > bestY) {
-                bestY = position.y;
-            }
-        }
-        for (Vector2d position : grassList.keySet()) {
-            if (position.x > bestX) {
-                bestX = position.x;
-            }
-            if (position.y > bestY) {
-                bestY = position.y;
-            }
-        }
-        return new Vector2d(bestX, bestY);
+        return borders.upperRight();
     }
 
     @Override

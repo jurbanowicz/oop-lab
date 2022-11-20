@@ -5,25 +5,31 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 
 public class MapBoundary implements IPositionChangeObserver{
-    SortedSet<Object> xAxis;
-    SortedSet<Object> yAxis;
-    IWorldMap map;
-    public MapBoundary(IWorldMap map) {
-        this.map = map;
+    SortedSet<Vector2d> xAxis;
+    SortedSet<Vector2d> yAxis;
+    public MapBoundary() {
         xAxis = new TreeSet<>(new CompareX());
         yAxis = new TreeSet<>(new CompareY());
     }
-    public void addElement(Object object){
-        xAxis.add(object);
-        yAxis.add(object);
+    public void addElement(Vector2d vector){
+        xAxis.add(vector);
+        yAxis.add(vector);
+    }
+    public void removeElement(Vector2d vector) {
+        xAxis.remove(vector);
+        yAxis.remove(vector);
     }
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        Object object = map.objectAt(newPosition);
-        xAxis.remove(object);
-        yAxis.remove(object);
-        xAxis.add(object);
-        yAxis.add(object);
-
+        removeElement(oldPosition);
+        addElement(newPosition);
+    }
+    public Vector2d upperRight() {
+        Vector2d vector = new Vector2d(xAxis.last().x, yAxis.last().y);
+        return vector;
+    }
+    public Vector2d lowerLeft() {
+        Vector2d vector = new Vector2d(xAxis.first().x, yAxis.first().y);
+        return vector;
     }
 }
