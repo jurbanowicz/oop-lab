@@ -1,9 +1,8 @@
 package agh.ics.oop;
-
+import javafx.scene.image.ImageView;
 import java.util.ArrayList;
-import java.util.Vector;
 
-public class Animal {
+public class Animal extends AbstractMapElement {
     private MapDirection currDirection = MapDirection.NORTH;
     private Vector2d currPosition;
 
@@ -40,6 +39,7 @@ public class Animal {
     }
     void move(MoveDirection direction) {
         Vector2d newPosition = currPosition;
+        Vector2d oldPosition = currPosition;
         switch (direction) {
             case LEFT -> currDirection = currDirection.previous();
             case RIGHT -> currDirection = currDirection.next();
@@ -47,11 +47,10 @@ public class Animal {
             case BACKWARD -> newPosition = currPosition.subtract(currDirection.toUnitVector());
         }
         if (this.map.canMoveTo(newPosition)) {
-            // positionChanged(currPosition, newPosition);
-            Vector2d oldPosition = currPosition;
             this.currPosition = newPosition;
             positionChanged(oldPosition, newPosition);
         }
+        ((GrassField) map).updateGui();
     }
     public Vector2d getPosition() {
         return this.currPosition;
@@ -68,6 +67,14 @@ public class Animal {
             observer.positionChanged(oldPosition, newPosition);
         }
     }
-
-
+    public ImageView getImage(){
+        ImageView imageView = null;
+        switch (this.currDirection) {
+            case NORTH -> imageView = getAnimalN();
+            case EAST -> imageView = getAnimalE();
+            case SOUTH -> imageView = getAnimalS();
+            case WEST -> imageView = getAnimalW();
+        }
+        return imageView;
+    }
 }

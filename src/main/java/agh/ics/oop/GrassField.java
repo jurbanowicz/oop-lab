@@ -1,5 +1,7 @@
 package agh.ics.oop;
 
+import javafx.application.Application;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -14,6 +16,7 @@ public class GrassField extends AbstractWorldMap {
     private int grassAmount;
 
     private MapBoundary borders;
+    private IMapObserver mapObserver;
 
     public GrassField(int grassAmount) {
         animals = new HashMap<>();
@@ -173,5 +176,11 @@ public class GrassField extends AbstractWorldMap {
         Animal animal = animals.get(oldPosition);
         animals.remove(oldPosition);
         animals.put(newPosition, animal);
+    }
+    public void updateGui() {
+        mapObserver.positionChanged();
+    }
+    public void addObserver(IMapObserver app) {
+        mapObserver = app;
     }
 }
