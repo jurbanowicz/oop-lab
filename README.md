@@ -1,2 +1,2 @@
 # oop-lab
-Projects for oop labs
+Code for oop labs
